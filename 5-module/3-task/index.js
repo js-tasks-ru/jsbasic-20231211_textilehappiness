@@ -9,21 +9,18 @@ function initCarousel() {
   
   arrowLeft.style.display = 'none';
   
-  
- 
+   
   arrowRight.addEventListener('click', () => {
       
       count++;
        
       value = -carusel.offsetWidth * count + 'px';
       
-      carusel.style.transform = 'translateX(${value})';
-     
-      console.log(value);
-
+      carusel.style.transform = `translateX(${value})`; 
+      
+      
       if (count == 3) {
          
-        count = 0;
         arrowRight.style.display = 'none';
         
 
@@ -43,23 +40,24 @@ function initCarousel() {
   });
      
 
-
   arrowLeft.addEventListener('click', () => {
     
     
-    count++;
+    count--;
 
-    value = carusel.offsetWidth * count + 'px';
+    value = -carusel.offsetWidth * count + 'px'; 
     
-    carusel.style.transform = 'translateX(${value})';
+    carusel.style.transform = `translateX(${value})`; 
    
-    console.log(value); 
-
-    if (count == 3) {
+    
+    if (count == 0) {
         
-      count = 0;
-      
       arrowLeft.style.display = 'none';
+      arrowRight.style.display = '';
+
+     } else if (count == 1 || count == 2) {
+         
+        arrowRight.style.display = '';
 
      }
   
