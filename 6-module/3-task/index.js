@@ -4,6 +4,7 @@ export default class Carousel {
   constructor(slides) {
     this.slides = slides;
     this.elem = slides;
+    this.currentSlideNumber = 0;
     this.render();
   }
 
@@ -37,6 +38,7 @@ export default class Carousel {
     });
     
     this.elem.append(arrowRight, arrowLeft, carouselInner);
+   
 
     this.addEventListeners();
     
@@ -75,23 +77,19 @@ export default class Carousel {
     let carouselInner = this.elem.querySelector('.carousel__inner');
     let RightShift = event.target.closest('.carousel__arrow_right');
     let LeftShift = event.target.closest('.carousel__arrow_left');
-    let value;
-    let shift;
-    let offset = carouselInner.offsetLeft;
-            
+      
+
     if (RightShift) {
-    
-      shift = offset + carouselInner.offsetWidth;
       
-      value = -shift + 'px';
-    
-      carouselInner.style.transform = `translateX( ${value} )`; 
+      this.currentSlideNumber++; // Если вправо, то увеличили счётчик
       
-      offset += carouselInner.offsetWidth;
+      let offset = -this.elem.offsetWidth * this.currentSlideNumber;
+     
+      carouselInner.style.transform = `translateX(${offset}px)`;
 
       this.elem.querySelector('.carousel__arrow_left').style.display = ''; // показать стрелку "назад"
       
-      if (carouselInner.lastElementChild) {  // скрыть стрелку "вперед", если слайд последний
+      if (this.currentSlideNumber == this.slides.length - 1) {  // скрыть стрелку "вперед", если слайд последний
 
         RightShift.style.display = 'none';
 
@@ -104,16 +102,16 @@ export default class Carousel {
     }  
        
     if (LeftShift) {
-     
-      offset -= carouselInner.offsetWidth;
-                      
-      value = -offset + 'px';
-    
-      carouselInner.style.transform = `translateX( ${value} )`; 
+      
+     this.currentSlideNumber--; // Если влево, то уменьшили счётчик
+
+     let offset = -this.elem.offsetWidth * this.currentSlideNumber;
+
+     carouselInner.style.transform = `translateX(${offset}px)`;
       
       this.elem.querySelector('.carousel__arrow_right').style.display = ''; // показать стрелку "вперед"
             
-      if (carouselInner.firstElementChild) {  // скрыть стрелку "назад", если слайд первый
+      if (this.currentSlideNumber == 0) {  // скрыть стрелку "назад", если слайд первый
 
         LeftShift.style.display = 'none';
 
